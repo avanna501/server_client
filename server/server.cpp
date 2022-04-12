@@ -1,6 +1,6 @@
 #include "server.h"
 #include <QDebug>
-#include <>
+#include <QDataStream>
 
 MyServer::MyServer()
 {
@@ -31,8 +31,9 @@ void MyServer::read()
         qDebug()<<"couldn't open the file";
         return;
     }
-    while(!file.atEnd())
-        list.append(file.readLine());
+//    while(!file.atEnd())
+//        list.append(file.readLine());
+    list=file.readAll();
  }
 
 void MyServer::incoming_connection()
@@ -40,10 +41,6 @@ void MyServer::incoming_connection()
     QByteArray data;
     QDataStream out(&data, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_10);
-
-        out << list[QRandomGenerator::global()->bounded(fortunes.size())];
-    QDataStream out(&exchanging_data, QIODevice::WriteOnly);
-//    out.setVersion(QDataStream::Qt_5_10);
 
     out << list;
 

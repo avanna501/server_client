@@ -24,7 +24,8 @@ private:
     QTcpSocket * soc;
     QVector<QTcpSocket*> s;
     QString file_name="C:/Users/inter/projects_a/fortune_example/my_fortune/list_of_fortunes.txt";
-    QList<QString> list={};
+//    QList<QString> list={};
+    QString list;
 };
 //qintptr socketDescriptor
 #endif // SERVER_H
