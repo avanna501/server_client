@@ -16,14 +16,14 @@ class MyServer : public QTcpServer
 public:
     MyServer();
     void read();
+    void show(int argc, char *argv[]);
+    QString file_name="C:/Users/inter/projects_a/fortune_example/my_fortune/list.txt";
 
 public slots:
     void incoming_connection();
-
 private:
     QTcpSocket * soc;
     QVector<QTcpSocket*> s;
-    QString file_name="C:/Users/inter/projects_a/fortune_example/my_fortune/list_of_fortunes.txt";
 //    QList<QString> list={};
     QString list;
 };

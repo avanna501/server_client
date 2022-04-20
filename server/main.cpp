@@ -1,11 +1,11 @@
-#include "header.h"
+#include "server.h"
 
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QApplication::setApplicationDisplayName(Server::tr("Fortune Server"));
+    QApplication::setApplicationDisplayName(MyServer::tr("Server"));
     MyServer server;
 //    server.show();
     return app.exec();
