@@ -16,7 +16,7 @@ class MyServer : public QTcpServer
 public:
     MyServer();
     void read_tosend();
-    QString file_name="C:/Users/inter/projects_a/fortune_example/my_fortune/list.txt";
+    QString file_name="list.txt";
 
 public slots:
     void incoming_connection();

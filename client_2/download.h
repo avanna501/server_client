@@ -15,24 +15,20 @@ public:
     explicit Downloader();
     ~Downloader();
     Downloader(const Downloader&);
+    Downloader& operator=(const Downloader& other) {target = other.target; return *this; }
 
     void setTarget(const QString& t);
     void download_request(int j);
-    void download();
-    Downloader& operator=(const Downloader& other) {target = other.target; return *this; }
     QString file_name;
-//    QFile localFile;
 
 private:
     QNetworkAccessManager manager;
     QString target;
-    int i;
+    int i=-1;
+    void download();
 
 signals:
     void done_0();
 
-//public slots:
-
 };
-
 #endif // DOWNLOAD_H

@@ -8,38 +8,32 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    ui->next_Button->setDisabled(true);
+    ui->previous_Button->setDisabled(true);
     connect(ui->pushButton_getURLs, &QPushButton::clicked,[this]{   starting_the_request();
                                                                     ui->next_Button->setDisabled(true);
                                                                     ui->previous_Button->setDisabled(true);});
     connect(ui->next_Button,&QPushButton::clicked,this,&Widget::next_pic);
     connect(ui->previous_Button,&QPushButton::clicked,this,&Widget::prev_pic);
 };
-Widget::~Widget()
-{
-    delete ui;
-}
+Widget::~Widget(){ delete ui; }
 
 void Widget::starting_the_request()
 {
-    qInfo()<<"I'm in function sender";
-    QString l=ui->server_ip_line->text();
-    client.request(l);
-
+    client.request((QString)ui->server_ip_line->text());
     connect(&client,&MyClient::created,this,&Widget::pre_load_pic_0);
 }
 
 void Widget::next_pic()
 {
-    i=(i+client.vdownloader.size()+1)%client.vdownloader.size();
-    qInfo()<<"next"<<i;
-    load_pic(client.vdownloader[i].file_name);
+    pic_i=(pic_i+client.vdownloader.size()+1)%client.vdownloader.size();
+    load_pic(client.vdownloader[pic_i].file_name);
 }
 
 void Widget::prev_pic()
 {
-    i=(i+client.vdownloader.size()-1)%client.vdownloader.size();
-    qInfo()<<"previous"<<i;
-    load_pic(client.vdownloader[i].file_name);
+    pic_i=(pic_i+client.vdownloader.size()-1)%client.vdownloader.size();
+    load_pic(client.vdownloader[pic_i].file_name);
 }
 
 void Widget::load_pic(QString path)

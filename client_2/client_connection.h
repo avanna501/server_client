@@ -20,19 +20,16 @@ public:
 
     void request(QString server_ip);
     QVector<Downloader> vdownloader;
+
 public slots:
     void read();
-    void handleSocketConnected();
 
 private:
-
     QString line_of_URLs;
     QTcpSocket * tcp = new QTcpSocket(this);
-
+    void handleSocketConnected();
     QDataStream in;
-
     QList<QString> list;
-//    Downloader j;
 
 signals:
     void created();
