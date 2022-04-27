@@ -15,8 +15,7 @@ class MyServer : public QTcpServer
 
 public:
     MyServer();
-    void read();
-    void show(int argc, char *argv[]);
+    void read_tosend();
     QString file_name="C:/Users/inter/projects_a/fortune_example/my_fortune/list.txt";
 
 public slots:
@@ -24,8 +23,6 @@ public slots:
 private:
     QTcpSocket * soc;
     QVector<QTcpSocket*> s;
-//    QList<QString> list={};
     QString list;
 };
-//qintptr socketDescriptor
 #endif // SERVER_H

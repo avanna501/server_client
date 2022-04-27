@@ -1,51 +1,34 @@
-#ifndef CLIENT_H
-#define CLIENT_H
+#ifndef CLIENT_CONNECTION_H
+#define CLIENT_CONNECTION_H
 
-#include <download.h>
-#include <QMainWindow>
-#include <QDialog>
-#include <QAbstractSocket>
+#include "download.h"
+
 #include <QTcpSocket>
-#include <QVector>
-#include <QComboBox>
-#include <QLineEdit>
-#include <QDialog>
-#include <QPushButton>
 #include <QHostInfo>
 #include <QDataStream>
+#include <QString>
+#include <QList>
+#include <QVector>
 
-QT_BEGIN_NAMESPACE
-class QComboBox;
-class QLabel;
-class QLineEdit;
-class QPushButton;
-class QTcpSocket;
-QT_END_NAMESPACE
-
-class Client : public QDialog
+class MyClient : public QObject
 {
     Q_OBJECT
 
+
 public:
-    explicit Client(QWidget *parent = nullptr);
-    QString lineOfURLs;
+    MyClient();
 
-private slots:
-    void requestURL();
+    QString line;
+    void request(QString server_ip);
+
     void read();
-    void displayError(QAbstractSocket::SocketError socketError);
 
-private:
     QHostInfo hostIP;
-    QLineEdit *host = nullptr;
-//    QLineEdit *portLineEdit = nullptr;
-    QPushButton *getPictures = nullptr;
-
-    QTcpSocket *tcpSocket = nullptr;
-    QDataStream in;
+    QTcpSocket * tcp=new QTcpSocket(this);
     QList<QString> list;
     QVector<Downloader> qd;
+    QDataStream in;
 
 };
 
-#endif// CLIENT_H
+#endif // CLIENT_CONNECTION_H

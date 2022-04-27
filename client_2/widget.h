@@ -17,9 +17,16 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
     void starting_the_request();
-
+    void load_pic_0();
 private:
     MyClient client;
     Ui::Widget *ui;
+
+    int i=0;
+    void next_pic();
+    void prev_pic();
+    void load_pic(QString path);
+    void pre_load_pic_0();
+
 };
 #endif // WIDGET_H

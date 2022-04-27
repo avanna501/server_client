@@ -20,14 +20,16 @@ public:
     void download_request(int j);
     void download();
     Downloader& operator=(const Downloader& other) {target = other.target; return *this; }
-
+    QString file_name;
 //    QFile localFile;
 
 private:
     QNetworkAccessManager manager;
     QString target;
     int i;
-    QString file_name;
+
+signals:
+    void done_0();
 
 //public slots:
 

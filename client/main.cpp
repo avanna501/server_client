@@ -1,15 +1,11 @@
-#include "client.h"
-#include "download.h"
-#include <QString>
-#include <QList>
-#include <QCoreApplication>
+#include "widget.h"
+
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
-
-    Client client;
-    client.show();
+    QApplication a(argc, argv);
+    Widget w;
+    w.show();
     return a.exec();
 }
