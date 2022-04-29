@@ -1,20 +1,15 @@
 #include "download.h"
-#include <QUrl>
-#include <QNetworkRequest>
-#include <QFile>
 #include <QDebug>
-#include <QCoreApplication>
+#include <QFile>
+#include <QNetworkRequest>
 #include <QPixmap>
 #include <QString>
+#include <QUrl>
 
-Downloader::Downloader() : QObject(0)
-{
-    qInfo()<<"created";
-}
+Downloader::Downloader() : QObject(nullptr){}
+
 Downloader::~Downloader()
 {
-
-    qInfo()<<"destroyed "<<i;
     if(i>=0)
     {
         QFile file_del(file_name);
@@ -62,6 +57,5 @@ void Downloader::download()
     localFile.flush();
     localFile.close();
     qInfo()<<"download "<<i;
-    if (i==0)
-        emit done_0();
+    emit done(i);
 }

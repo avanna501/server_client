@@ -2,7 +2,9 @@
 #define WIDGET_H
 
 #include "client_connection.h"
+
 #include <QWidget>
+#include <QTableView>
 
 
 QT_BEGIN_NAMESPACE
@@ -21,12 +23,14 @@ public:
 private:
     MyClient client;
     Ui::Widget *ui;
-
+    QTableView table;
     int pic_i=0;
+
     void next_pic();
     void prev_pic();
-    void load_pic(QString path);
+    void load_pic(int index/*, QString path*/);
     void pre_load_pic_0();
     void load_pic_0();
+    void L(int l);
 };
 #endif // WIDGET_H

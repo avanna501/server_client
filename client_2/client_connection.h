@@ -2,11 +2,11 @@
 #define CLIENT_CONNECTION_H
 
 #include "download.h"
-#include <QTcpSocket>
-#include <QHostInfo>
+
 #include <QDataStream>
-#include <QString>
 #include <QList>
+#include <QString>
+#include <QTcpSocket>
 #include <QVector>
 
 
@@ -19,20 +19,19 @@ public:
     ~MyClient();
 
     void request(QString server_ip);
+
+    QStringList lines;
     QVector<Downloader> vdownloader;
 
-public slots:
+private:
+    void handleSocketConnected();
     void read();
 
-private:
-    QString line_of_URLs;
-    QTcpSocket * tcp = new QTcpSocket(this);
-    void handleSocketConnected();
+    QTcpSocket * tcp=new QTcpSocket(this);
     QDataStream in;
-    QList<QString> list;
 
 signals:
-    void created();
+    void created(int);
 };
 
 #endif // CLIENT_CONNECTION_H

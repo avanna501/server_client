@@ -3,11 +3,7 @@
 
 #include <QObject>
 #include <QString>
-#include <QList>
-#include <QFile>
-#include <QRandomGenerator>
 #include <QTcpServer>
-#include <QTcpSocket>
 
 class MyServer : public QTcpServer
 {
@@ -15,14 +11,12 @@ class MyServer : public QTcpServer
 
 public:
     MyServer();
-    void read_tosend();
-    QString file_name="list.txt";
 
-public slots:
-    void incoming_connection();
 private:
-    QTcpSocket * soc;
-    QVector<QTcpSocket*> s;
     QString list;
+
+private slots:
+    void incoming_connection();
+    void read_tosend();
 };
 #endif // SERVER_H

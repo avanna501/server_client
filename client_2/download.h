@@ -1,11 +1,12 @@
 #ifndef DOWNLOAD_H
 #define DOWNLOAD_H
 
-#include <QObject>
-#include <QString>
+#include <QFile>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QFile>
+#include <QObject>
+#include <QString>
+
 
 class Downloader : public QObject
 {
@@ -15,7 +16,7 @@ public:
     explicit Downloader();
     ~Downloader();
     Downloader(const Downloader&);
-    Downloader& operator=(const Downloader& other) {target = other.target; return *this; }
+    Downloader& operator=(const Downloader& other) {target=other.target; return *this; }
 
     void setTarget(const QString& t);
     void download_request(int j);
@@ -25,10 +26,10 @@ private:
     QNetworkAccessManager manager;
     QString target;
     int i=-1;
+
     void download();
 
 signals:
-    void done_0();
-
+    void done(int);
 };
 #endif // DOWNLOAD_H

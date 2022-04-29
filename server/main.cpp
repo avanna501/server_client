@@ -1,12 +1,11 @@
 #include "server.h"
 
-#include <QApplication>
+#include <QCoreApplication>
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-    QApplication::setApplicationDisplayName(MyServer::tr("Server"));
+    QCoreApplication a(argc, argv);
     MyServer server;
 
-    return app.exec();
+    return a.exec();
 }
