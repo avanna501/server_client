@@ -5,7 +5,9 @@
 
 #include <QWidget>
 #include <QTableView>
-
+#include <QStandardItem>
+#include <QList>
+#include <QVector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -20,6 +22,9 @@ public:
     ~Widget();
     void starting_the_request();
 
+public slots:
+    void cell_clicked(const QModelIndex &index);
+
 private:
     MyClient client;
     Ui::Widget *ui;
@@ -28,9 +33,15 @@ private:
 
     void next_pic();
     void prev_pic();
-    void load_pic(int index/*, QString path*/);
+    void load_pic(int index);
     void pre_load_pic_0();
     void load_pic_0();
-    void L(int l);
+    void Length(int l);
+    void load_complete();
+
+    int count = 0;
+
+    QVector <QList <QStandardItem *>> items_list;
+    QStandardItem *item = new QStandardItem();
 };
 #endif // WIDGET_H

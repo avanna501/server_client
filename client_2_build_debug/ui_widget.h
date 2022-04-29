@@ -12,10 +12,12 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -25,6 +27,7 @@ class Ui_Widget
 {
 public:
     QWidget *widget;
+    QHBoxLayout *horizontalLayout_4;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
@@ -33,25 +36,23 @@ public:
     QSpacerItem *horizontalSpacer_2;
     QPushButton *pushButton_getURLs;
     QSpacerItem *horizontalSpacer;
-    QSpacerItem *verticalSpacer;
-    QLabel *pic_label;
+    QTableView *table;
     QHBoxLayout *horizontalLayout_3;
-    QSpacerItem *horizontalSpacer_4;
-    QPushButton *previous_Button;
-    QPushButton *next_Button;
-    QSpacerItem *horizontalSpacer_3;
+    QLabel *pic_label;
 
     void setupUi(QWidget *Widget)
     {
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QString::fromUtf8("Widget"));
-        Widget->resize(397, 448);
+        Widget->resize(796, 459);
         widget = new QWidget(Widget);
         widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(21, 16, 353, 411));
-        verticalLayout = new QVBoxLayout(widget);
+        widget->setGeometry(QRect(20, 20, 743, 408));
+        horizontalLayout_4 = new QHBoxLayout(widget);
+        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
+        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
+        verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         label = new QLabel(widget);
@@ -85,47 +86,29 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_2);
 
-        verticalSpacer = new QSpacerItem(218, 18, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        table = new QTableView(widget);
+        table->setObjectName(QString::fromUtf8("table"));
+        table->setMinimumSize(QSize(321, 291));
 
-        verticalLayout->addItem(verticalSpacer);
-
-        pic_label = new QLabel(widget);
-        pic_label->setObjectName(QString::fromUtf8("pic_label"));
-        pic_label->setMinimumSize(QSize(351, 271));
-        pic_label->setLayoutDirection(Qt::LeftToRight);
-        pic_label->setAutoFillBackground(true);
-        pic_label->setScaledContents(false);
-        pic_label->setAlignment(Qt::AlignCenter);
-        pic_label->setWordWrap(false);
-
-        verticalLayout->addWidget(pic_label);
+        verticalLayout->addWidget(table);
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
-        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_3->addItem(horizontalSpacer_4);
-
-        previous_Button = new QPushButton(widget);
-        previous_Button->setObjectName(QString::fromUtf8("previous_Button"));
-
-        horizontalLayout_3->addWidget(previous_Button);
-
-        next_Button = new QPushButton(widget);
-        next_Button->setObjectName(QString::fromUtf8("next_Button"));
-
-        horizontalLayout_3->addWidget(next_Button);
-
-        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_3->addItem(horizontalSpacer_3);
-
 
         verticalLayout->addLayout(horizontalLayout_3);
 
 
+        horizontalLayout_4->addLayout(verticalLayout);
+
+        pic_label = new QLabel(widget);
+        pic_label->setObjectName(QString::fromUtf8("pic_label"));
+        pic_label->setMinimumSize(QSize(411, 311));
+        pic_label->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_4->addWidget(pic_label);
+
+
         retranslateUi(Widget);
-        QObject::connect(pushButton_getURLs, &QPushButton::clicked, pic_label, qOverload<>(&QLabel::clear));
 
         QMetaObject::connectSlotsByName(Widget);
     } // setupUi
@@ -134,10 +117,9 @@ public:
     {
         Widget->setWindowTitle(QCoreApplication::translate("Widget", "Widget", nullptr));
         label->setText(QCoreApplication::translate("Widget", "Server IP", nullptr));
+        server_ip_line->setText(QCoreApplication::translate("Widget", "192.168.5.22", nullptr));
         pushButton_getURLs->setText(QCoreApplication::translate("Widget", "Get the URLs", nullptr));
-        pic_label->setText(QCoreApplication::translate("Widget", "the pictures will be displayed here", nullptr));
-        previous_Button->setText(QCoreApplication::translate("Widget", "previous", nullptr));
-        next_Button->setText(QCoreApplication::translate("Widget", "next", nullptr));
+        pic_label->setText(QCoreApplication::translate("Widget", "pic_label", nullptr));
     } // retranslateUi
 
 };

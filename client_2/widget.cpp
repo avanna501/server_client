@@ -1,87 +1,122 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include "client_connection.h"
+
 #include <QObject>
+#include <QVariant>
+#include <QModelIndex>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-//    ui->next_Button->setDisabled(true);
-//    ui->previous_Button->setDisabled(true);
     connect(ui->pushButton_getURLs, &QPushButton::clicked,[this]{starting_the_request();});
-//                                                                    ui->next_Button->setDisabled(true);
-//                                                                    ui->previous_Button->setDisabled(true);
-//    connect(ui->next_Button,&QPushButton::clicked,this,&Widget::next_pic);
-//    connect(ui->previous_Button,&QPushButton::clicked,this,&Widget::prev_pic);
-//    ui->table->setAttribute()
-
 };
+
 Widget::~Widget(){ delete ui; }
 
 void Widget::starting_the_request()
 {
     client.request((QString)ui->server_ip_line->text());
-    ui->table->setColumnCount(3);
-    connect(&client,&MyClient::created,this,&Widget::L);
-    qInfo()<<client.lines.size();
-
-    ui->table->gridStyle();
+    connect(&client,&MyClient::created,this,&Widget::Length);
     connect(&client,&MyClient::created,this,&Widget::pre_load_pic_0);
 }
 
-void Widget::L(int l)
+void Widget::Length(int l)
 {
-    ui->table->setRowCount((l+2)/3);
+    count=l;
+    items_list.resize((l+2)/3);
+    for(int i=0;i<(l+2)/3;i++) items_list[i] << nullptr << nullptr << nullptr;
+    for(int i=0;i<l;i++) connect(&client.vdownloader[i],&Downloader::done,this,&Widget::load_pic);
 }
 
+void Widget::load_pic(int index)
+{
+    int col=index%3;
+    int row=index/3;
 
-//void Widget::next_pic()
-//{
-//    pic_i=(pic_i+client.vdownloader.size()+1)%client.vdownloader.size();
-//    load_pic(client.vdownloader[pic_i].file_name);
-//}
+    QPixmap pic;
+    pic.load(client.vdownloader[index].file_name);
+    pic=pic.scaled(75 ,100, Qt::KeepAspectRatioByExpanding,
+                            Qt::SmoothTransformation);
 
-//void Widget::prev_pic()
-//{
-//    pic_i=(pic_i+client.vdownloader.size()-1)%client.vdownloader.size();
-//    load_pic(client.vdownloader[pic_i].file_name);
-//}
+    QStandardItem *item = new QStandardItem();
+    item->setData(QVariant(pic), Qt::DecorationRole);
+
+    switch(col)
+    {
+    case 0:
+        items_list[row].removeFirst();
+        items_list[row].prepend(item);
+        break;
+    case 1:
+        items_list[row].removeAt(1);
+        items_list[row].insert(1,item);
+        break;
+    case 2:
+        items_list[row].removeLast();
+        items_list[row].append(item);
+        break;
+    }
+
+    count--;
+    if (count==0)
+        load_complete();
+}
+
+void Widget::load_complete()
+{
+    QStandardItemModel *model;
+    model=new QStandardItemModel();
+    for (int i = 0; i<items_list.length();i++)
+        model->insertRow(i,items_list[i]);
+    ui->table->setModel( model );
+//    for(int i=0;i<3;i++)
+//        ui->table->setColumnWidth(i,100);
+//    for(int i=0;i<items_list.length();i++)
+//        ui->table->setRowHeight(i,75);
+    ui->table->resizeRowsToContents();
+    connect(ui->table, SIGNAL(clicked(const QModelIndex&)), this, SLOT(cell_clicked(const QModelIndex&)));
+
+//    connect(ui->table,&QTableView::clicked,this,&Widget::cell_clicked);
+}
+///////then
+///////void MainWindow::recordSelected()
+///////{
+///////   QModelIndex index = view->currentIndex();
+///////   QSqlRecord record;
+///////   int i = index.row(); // now you know which record was selected
+///////   record = model->record(i);
+///////// and I do something with the record
+///////}
+
+void Widget::cell_clicked(const QModelIndex &index)
+{
+
+    QPixmap pic;
+//
+//    QModelIndex indexn = ui->table->currentIndex();
+    int index_n=3*index.row()+index.column();
+    qInfo()<<index_n<<index;
+
+    pic.load(client.vdownloader[index_n].file_name);
+    ui->pic_label->setPixmap(pic.scaled(ui->pic_label->size(),
+                                         Qt::KeepAspectRatio,
+                                         Qt::SmoothTransformation));
+}
 
 void Widget::pre_load_pic_0()
 {
     connect(&client.vdownloader[0],&Downloader::done,this,&Widget::load_pic_0);
-//    connect(&client.vdownloader[i],&Downloader::done,[this,i]{load_pic(i,client.vdownloader[i].file_name);});
-//    connect(&client.vdownloader,&Downloader::done,this,&Widget::load_pic);
 }
-//
-////void Widget::load_pic(int index, QString path)
-////{
-////    QPixmap pic(path);
-////    int d=index;
-////    ui->pic_label->setPixmap(pic.scaled(ui->pic_label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-////}
-///
 
-void Widget::load_pic(int index)
-{
-    QPixmap pic;
-    pic.load(client.vdownloader[index].file_name);
-}
 
 void Widget::load_pic_0()
 {
     QPixmap pic;
     pic.load(client.vdownloader[0].file_name);
-//    ui->table->setPixmap(pic.scaled(ui->pic_label));
-//    ui->table->setItem(0,0,/*pic.scaled(ui->table->size(),
-//                                                                              Qt::KeepAspectRatio,
-//                                                                              Qt::SmoothTransformation)*/"0");
     ui->pic_label->setPixmap(pic.scaled(ui->pic_label->size(),
                                          Qt::KeepAspectRatio,
                                          Qt::SmoothTransformation));
-//    ui->previous_Button->setEnabled(true);
-//    ui->next_Button->setEnabled(true);
-
 }
